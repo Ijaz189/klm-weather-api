@@ -21,13 +21,13 @@ import com.klm.weather.service.WeatherService;
 public class WeatherApiRestController {
 	@Autowired
 	private WeatherService service;
-
+	//To create and store weather info in db
 	@PostMapping
 	public ResponseEntity<Weather> create(@RequestBody Weather weather) {
 		Weather created = service.create(weather);
 		return ResponseEntity.status(201).body(created);
 	}
-
+	//To get Weather object based on multiple critiria
 	@GetMapping
 	public ResponseEntity<List<Weather>> getAllWeather(@RequestParam Optional<String> date,
 			@RequestParam Optional<String> city, @RequestParam Optional<String> sort) {
@@ -35,7 +35,7 @@ public class WeatherApiRestController {
 				city.filter(s -> !s.isBlank()), sort.filter(s -> !s.isBlank()));
 		return ResponseEntity.ok(result);
 	}
-
+	//To get Weather object based on id
 	@GetMapping("/{id}")
 	public ResponseEntity<Weather> getById(@PathVariable Integer id) {
 		return service.getById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
